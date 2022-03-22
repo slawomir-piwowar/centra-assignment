@@ -5,9 +5,17 @@ namespace Tests\Unit\Domain;
 
 use KanbanBoard\Domain\IssueState;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 class IssueStateTest extends TestCase
 {
+    public function testDirectInitializationIsForbidden(): void
+    {
+        $reflection = new ReflectionClass(IssueState::class);
+
+        $this->assertTrue($reflection->getConstructor()->isPrivate());
+    }
+
     public function testStateCompletedIsWorkingCorrectly(): void
     {
         $state = IssueState::COMPLETED();
