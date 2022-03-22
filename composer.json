@@ -9,7 +9,8 @@
   ],
   "autoload": {
     "psr-4": {
-      "KanbanBoard\\": "src/"
+      "KanbanBoard\\": "src/",
+      "Tests\\": "tests/"
     }
   },
   "require": {
@@ -26,5 +27,8 @@
     "phpstan/phpstan": "^1.5",
     "phpmd/phpmd": "dev-master",
     "symfony/var-dumper": "^5.4"
+  },
+  "scripts": {
+    "test:unit": "vendor/bin/phpunit"
   }
 }
