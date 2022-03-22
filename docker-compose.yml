@@ -1,0 +1,11 @@
+version: '3.5'
+services:
+  php:
+    container_name: centra_php_1
+    tty: true
+    build:
+      context: docker/php
+    ports:
+      - '8000:8000'
+    volumes:
+      - .:/var/www
