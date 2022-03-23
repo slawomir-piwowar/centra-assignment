@@ -65,8 +65,8 @@ class Application
                 'assignee' => (is_array($ii) && array_key_exists('assignee', $ii) && !empty($ii['assignee'])) ? $ii['assignee']['avatar_url'] . '?s=16' : NULL,
                 'paused' => self::labels_match($ii, $this->paused_labels),
                 'progress' => self::_percent(
-                    substr_count(strtolower($ii['body']), '[x]'),
-                    substr_count(strtolower($ii['body']), '[ ]')),
+                    substr_count(strtolower($ii['body'] ?? ''), '[x]'),
+                    substr_count(strtolower($ii['body'] ?? ''), '[ ]')),
                 'closed' => $ii['closed_at']
             );
         }
