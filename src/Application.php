@@ -7,7 +7,11 @@ use Michelf\Markdown;
 
 class Application
 {
-    public function __construct($github, $repositories, $paused_labels = array())
+    private Github $github;
+    private array $repositories;
+    private array $paused_labels;
+
+    public function __construct(Github $github, array $repositories, array $paused_labels = [])
     {
         $this->github = $github;
         $this->repositories = $repositories;
