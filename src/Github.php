@@ -6,6 +6,9 @@ namespace KanbanBoard;
 use Github\AuthMethod;
 use Github\Client;
 
+/**
+ * @deprecated
+ */
 class Github
 {
     private $client;

@@ -3,10 +3,13 @@ declare(strict_types=1);
 
 namespace KanbanBoard;
 
+/**
+ * @deprecated
+ */
 class Authentication
 {
-    private $client_id = NULL;
-    private $client_secret = NULL;
+    private string $client_id;
+    private string $client_secret;
 
     public function __construct()
     {

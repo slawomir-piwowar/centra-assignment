@@ -6,6 +6,7 @@ namespace KanbanBoard;
 use DI\Container;
 use DI\ContainerBuilder;
 use DI\Definition\Source\DefinitionFile;
+use DI\Definition\Source\ReflectionBasedAutowiring;
 use Dotenv\Dotenv;
 use KanbanBoard\Application\Controller\IndexController;
 use RuntimeException;
@@ -22,7 +23,8 @@ class ApplicationNew
         Dotenv::createImmutable(self::ENV_DIR)->load();
 
         $builder = new ContainerBuilder();
-        $builder->addDefinitions(new DefinitionFile(self::SERVICES_FILE));
+        $builder->useAutowiring(true);
+        $builder->addDefinitions(new DefinitionFile(self::SERVICES_FILE, new ReflectionBasedAutowiring()));
 
         return new self($builder->build());
     }

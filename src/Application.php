@@ -5,6 +5,9 @@ namespace KanbanBoard;
 
 use Michelf\Markdown;
 
+/**
+ * @deprecated
+ */
 class Application
 {
     private Github $github;

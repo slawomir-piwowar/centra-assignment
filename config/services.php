@@ -9,4 +9,8 @@ use KanbanBoard\Infrastructure\Repository\BoardRepository;
 return [
     GithubApiInterface::class => DI\get(GithubApi::class),
     BoardRepositoryInterface::class => DI\get(BoardRepository::class),
+
+    GithubApi::class => DI\autowire()
+        ->constructorParameter('account', DI\env('GH_ACCOUNT'))
+        ->constructorParameter('token', DI\env('TEMP_GH_TOKEN')),
 ];

@@ -16,38 +16,42 @@ class GithubApi implements GithubApiInterface
     private Client $client;
     private MilestoneResponseMapper $milestoneResponseMapper;
     private IssueResponseMapper $issueResponseMapper;
+    private string $account;
 
     public function __construct(
+        string $account,
+        string $token,
         Client $client,
         MilestoneResponseMapper $milestoneResponseMapper,
         IssueResponseMapper $issueResponseMapper
     ) {
         $this->client = $client;
         // TODO
-        $this->client->authenticate('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', AuthMethod::ACCESS_TOKEN);
+        $this->client->authenticate($token, AuthMethod::ACCESS_TOKEN);
         $this->milestoneResponseMapper = $milestoneResponseMapper;
         $this->issueResponseMapper = $issueResponseMapper;
+        $this->account = $account;
     }
 
     /**
-     * @return MilestoneResponse[]
+     * @return array<MilestoneResponse>
      */
     public function getMilestones(string $repository): array
     {
         return array_map(
             fn (array $data): MilestoneResponse => $this->milestoneResponseMapper->map($data),
-            $this->client->api('issues')->milestones()->all('slawomir-piwowar', $repository),
+            $this->client->api('issues')->milestones()->all($this->account, $repository),
         );
     }
 
     /**
-     * @return IssueResponse[]
+     * @return array<IssueResponse>
      */
     public function getIssues(string $repository, int $number): array
     {
         return array_map(
             fn (array $data): IssueResponse => $this->issueResponseMapper->map($data),
-            $this->client->api('issue')->all('slawomir-piwowar', $repository, [
+            $this->client->api('issue')->all($this->account, $repository, [
                 'milestone' => $number,
                 'state' => 'all',
             ]),

@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace KanbanBoard;
 
+/**
+ * @deprecated
+ */
 class Utilities
 {
     private function __construct()
