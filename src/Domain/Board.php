@@ -7,9 +7,7 @@ use InvalidArgumentException;
 
 class Board
 {
-    /**
-     * @var array|Milestone[]
-     */
+    /** @var array<Milestone> */
     private array $milestones;
 
     public function __construct(Milestone ...$milestones)

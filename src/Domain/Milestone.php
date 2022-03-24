@@ -9,14 +9,9 @@ class Milestone
     private string $title;
     private Progress $progress;
 
-    /**
-     * @var array|Issue[]
-     */
+    /** @var array<Issue>  */
     private array $issues;
 
-    /**
-     * @param Issue[] $issues
-     */
     public function __construct(
         int $number,
         string $title,
@@ -45,7 +40,7 @@ class Milestone
     }
 
     /**
-     * @return array|Issue[]
+     * @return array<Issue>
      */
     public function queued(): array
     {
@@ -53,7 +48,7 @@ class Milestone
     }
 
     /**
-     * @return array|Issue[]
+     * @return array<Issue>
      */
     public function active(): array
     {
@@ -61,7 +56,7 @@ class Milestone
     }
 
     /**
-     * @return array|Issue[]
+     * @return array<Issue>
      */
     public function completed(): array
     {

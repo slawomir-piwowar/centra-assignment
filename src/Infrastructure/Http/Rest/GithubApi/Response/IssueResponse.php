@@ -13,15 +13,12 @@ class IssueResponse
     private string $title;
     private string $state;
     private string $url;
-    /** @var array|string[]  */
+    /** @var array<string>  */
     private array $labels;
     private ?string $assignee;
     private ?string $body;
     private ?string $closedAt;
 
-    /**
-     * @param array|string[] $labels
-     */
     public function __construct(
         int $id,
         int $number,
