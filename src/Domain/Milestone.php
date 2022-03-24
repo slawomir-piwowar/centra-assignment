@@ -7,17 +7,23 @@ class Milestone
 {
     private int $number;
     private string $title;
-    private string $repository;
-    private Issues $issues;
     private Progress $progress;
 
-    public function __construct(int $number, string $title, string $repository, Issues $issues, Progress $progress)
-    {
+    /**
+     * @var array|Issue[]
+     */
+    private array $issues;
+
+    public function __construct(
+        int $number,
+        string $title,
+        array $issues,
+        Progress $progress
+    ) {
         $this->title = $title;
-        $this->repository = $repository;
         $this->number = $number;
-        $this->issues = $issues;
         $this->progress = $progress;
+        $this->issues = array_map(static fn (Issue $issue): Issue => $issue, $issues);
     }
 
     public function getNumber(): int
@@ -30,18 +36,23 @@ class Milestone
         return $this->title;
     }
 
-    public function getRepository(): string
-    {
-        return $this->repository;
-    }
-
-    public function getIssues(): Issues
-    {
-        return $this->issues;
-    }
-
     public function getProgress(): Progress
     {
         return $this->progress;
+    }
+
+    public function queued(): array
+    {
+        return array_filter($this->issues, fn (Issue $issue): bool => $issue->isQueued());
+    }
+
+    public function active(): array
+    {
+        return array_filter($this->issues, fn (Issue $issue): bool => $issue->isActive());
+    }
+
+    public function completed(): array
+    {
+        return array_filter($this->issues, fn (Issue $issue): bool => $issue->isCompleted());
     }
 }

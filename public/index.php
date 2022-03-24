@@ -3,11 +3,17 @@ declare(strict_types=1);
 
 use Dotenv\Dotenv;
 use KanbanBoard\Application;
+use KanbanBoard\ApplicationNew;
 use KanbanBoard\Authentication;
 use KanbanBoard\Github;
 use KanbanBoard\Utilities;
 
 require_once __DIR__ . '/../vendor/autoload.php';
+
+if ($_GET['test']) {
+    ApplicationNew::init()->run();
+    exit;
+}
 
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
