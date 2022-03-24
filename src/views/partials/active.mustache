@@ -1,0 +1,11 @@
+{{#active}}
+    <a href="{{url}}"
+       class="list-group-item {{#paused}}list-group-item-warning{{/paused}} {{^paused}}list-group-item-info{{/paused}}">
+        {{#assignee}}
+            <img alt="{{title}}" class="img-rounded" src="{{assignee}}" width="16" height="16" />
+        {{/assignee}}
+        {{#paused}}<em><small>{{/paused}}{{title}}{{#paused}}</small></em>{{/paused}}
+        <span class="glyphicon"></span>
+        <span class="glyphicon glyphicon-new-window pull-right"></span>
+    </a>
+{{/active}}

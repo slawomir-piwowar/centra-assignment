@@ -62,7 +62,7 @@ class Issue
         return $this->url;
     }
 
-    public function getAssignee(): string
+    public function getAssignee(): ?string
     {
         return $this->assignee;
     }

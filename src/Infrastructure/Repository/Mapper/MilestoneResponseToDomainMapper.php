@@ -25,6 +25,7 @@ class MilestoneResponseToDomainMapper
         return new Milestone(
             $milestoneResponse->getNumber(),
             $milestoneResponse->getTitle(),
+            $milestoneResponse->getUrl(),
             array_map(
                 fn (IssueResponse $issueResponse): Issue
                     => $this->issueResponseToDomainMapper->map($issueResponse),

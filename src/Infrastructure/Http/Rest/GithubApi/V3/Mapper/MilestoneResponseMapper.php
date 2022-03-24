@@ -13,6 +13,7 @@ class MilestoneResponseMapper
         return new MilestoneResponse(
             Arrays::get($data, 'number'),
             Arrays::get($data, 'title'),
+            Arrays::get($data, 'url'),
             Arrays::get($data, 'open_issues'),
             Arrays::get($data, 'closed_issues'),
         );

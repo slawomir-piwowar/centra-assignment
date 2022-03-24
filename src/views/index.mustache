@@ -35,53 +35,23 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <div class="list-group">
-                                {{#queued}}
-                                    <a href="{{url}}" class="list-group-item list-group-item-danger">
-                                        <span class="glyphicon glyphicon-question-sign"></span>
-                                        {{title}}
-                                        <span class="glyphicon glyphicon-new-window pull-right"></span>
-                                    </a>
-                                {{/queued}}
+                                {{> queued }}
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="list-group">
-                                {{#active}}
-                                    <a href="{{url}}"
-                                       class="list-group-item {{#paused}}list-group-item-warning{{/paused}} {{^paused}}list-group-item-info{{/paused}}">
-                                        {{#assignee}}
-                                        <img alt="{{title}}" class="img-rounded" src="{{assignee}}" width="16" height="16" />
-                                        {{/assignee}}
-                                        {{#paused}}<em><small>{{/paused}}{{title}}{{#paused}}</small></em>{{/paused}}
-                                        <span class="glyphicon"></span>
-                                        <span class="glyphicon glyphicon-new-window pull-right"></span>
-                                    </a>
-                                {{/active}}
+                                {{> active }}
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="list-group">
-                                {{#completed}}
-                                    <a href="{{url}}" class="list-group-item list-group-item-success">
-                                        {{#assignee}}
-                                        <img alt="{{title}}" class="img-rounded" src="{{assignee}}" width="16" height="16" />&nbsp;
-                                        {{/assignee}}
-                                        <s>{{title}}</s>
-                                        <span class="glyphicon glyphicon-new-window pull-right"></span>
-                                    </a>
-                                {{/completed}}
+                                {{> completed }}
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="panel-footer small">
-                    {{#progress}}
-                        <div class="progress mb-0">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{percent}}" aria-valuemin="0"
-                                 aria-valuemax="100" style="min-width: 2em; width: {{percent}}%;">{{percent}}%
-                            </div>
-                        </div>
-                    {{/progress}}
+                    {{> progress }}
                 </div>
             </div>
         {{/milestones}}

@@ -7,6 +7,7 @@ class Milestone
 {
     private int $number;
     private string $title;
+    private string $url;
     private Progress $progress;
 
     /** @var array<Issue>  */
@@ -15,11 +16,13 @@ class Milestone
     public function __construct(
         int $number,
         string $title,
+        string $url,
         array $issues,
         Progress $progress
     ) {
-        $this->title = $title;
         $this->number = $number;
+        $this->title = $title;
+        $this->url = $url;
         $this->progress = $progress;
         $this->issues = array_map(static fn (Issue $issue): Issue => $issue, $issues);
     }
@@ -34,6 +37,11 @@ class Milestone
         return $this->title;
     }
 
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
     public function getProgress(): Progress
     {
         return $this->progress;
@@ -44,7 +52,7 @@ class Milestone
      */
     public function queued(): array
     {
-        return array_filter($this->issues, fn (Issue $issue): bool => $issue->isQueued());
+        return array_values(array_filter($this->issues, fn (Issue $issue): bool => $issue->isQueued()));
     }
 
     /**
@@ -52,7 +60,7 @@ class Milestone
      */
     public function active(): array
     {
-        return array_filter($this->issues, fn (Issue $issue): bool => $issue->isActive());
+        return array_values(array_filter($this->issues, fn (Issue $issue): bool => $issue->isActive()));
     }
 
     /**
@@ -60,6 +68,6 @@ class Milestone
      */
     public function completed(): array
     {
-        return array_filter($this->issues, fn (Issue $issue): bool => $issue->isCompleted());
+        return array_values(array_filter($this->issues, fn (Issue $issue): bool => $issue->isCompleted()));
     }
 }

@@ -7,12 +7,14 @@ class MilestoneResponse
 {
     private int $number;
     private string $title;
+    private string $url;
     private int $openIssues;
     private int $closedIssues;
 
     public function __construct(
         int $number,
         string $title,
+        string $url,
         int $openIssues,
         int $closedIssues
     ) {
@@ -20,6 +22,7 @@ class MilestoneResponse
         $this->title = $title;
         $this->openIssues = $openIssues;
         $this->closedIssues = $closedIssues;
+        $this->url = $url;
     }
 
     public function getNumber(): int
@@ -30,6 +33,11 @@ class MilestoneResponse
     public function getTitle(): string
     {
         return $this->title;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
     }
 
     public function getOpenIssues(): int
