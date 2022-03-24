@@ -14,7 +14,7 @@ class IndexController
         $this->boardRepository = $boardRepository;
     }
 
-    public function index()
+    public function index(): void
     {
         dd($this->boardRepository->getByRepository('centra-assignment'));
     }

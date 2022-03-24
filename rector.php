@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use Rector\CodingStyle\Rector\ClassMethod\UnSpreadOperatorRector;
 use Rector\Core\Configuration\Option;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
@@ -17,4 +18,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::CODING_STYLE);
     $containerConfigurator->import(SetList::DEAD_CODE);
     $containerConfigurator->import(SetList::PHP_74);
+
+    $containerConfigurator->services()->remove(UnSpreadOperatorRector::class);
 };

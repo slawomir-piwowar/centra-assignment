@@ -14,6 +14,9 @@ class Milestone
      */
     private array $issues;
 
+    /**
+     * @param Issue[] $issues
+     */
     public function __construct(
         int $number,
         string $title,
@@ -41,16 +44,25 @@ class Milestone
         return $this->progress;
     }
 
+    /**
+     * @return array|Issue[]
+     */
     public function queued(): array
     {
         return array_filter($this->issues, fn (Issue $issue): bool => $issue->isQueued());
     }
 
+    /**
+     * @return array|Issue[]
+     */
     public function active(): array
     {
         return array_filter($this->issues, fn (Issue $issue): bool => $issue->isActive());
     }
 
+    /**
+     * @return array|Issue[]
+     */
     public function completed(): array
     {
         return array_filter($this->issues, fn (Issue $issue): bool => $issue->isCompleted());

@@ -12,15 +12,17 @@ use RuntimeException;
 
 class ApplicationNew
 {
+    protected const SERVICES_FILE = __DIR__ . '/../config/services.php';
+    protected const ENV_DIR = __DIR__ . '/../';
+
     protected Container $container;
 
     public static function init(): self
     {
-        $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
-        $dotenv->load();
+        Dotenv::createImmutable(self::ENV_DIR)->load();
 
         $builder = new ContainerBuilder();
-        $builder->addDefinitions(new DefinitionFile(__DIR__ . '/../config/services.php'));
+        $builder->addDefinitions(new DefinitionFile(self::SERVICES_FILE));
 
         return new self($builder->build());
     }
@@ -28,7 +30,7 @@ class ApplicationNew
     public function run(
         string $controller = IndexController::class,
         string $action = 'index'
-    ) {
+    ): void {
         if (!class_exists($controller)) {
             throw new RuntimeException(
                 sprintf('Controller \'%s\' does not exists', $controller)
@@ -41,11 +43,7 @@ class ApplicationNew
             );
         }
 
-
-
-        dd($this->container->get($controller)->$action());
-
-        return $this;
+        $this->container->get($controller)->$action();
     }
 
     private function __construct(Container $container)

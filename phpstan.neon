@@ -1,0 +1,6 @@
+parameters:
+    excludePaths:
+        - 'src/Application.php'
+        - 'src/Authentication.php'
+        - 'src/Github.php'
+        - 'src/Utilities.php'
