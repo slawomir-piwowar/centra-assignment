@@ -11,6 +11,7 @@ use KanbanBoard\Infrastructure\Http\Rest\GithubApi\Response\MilestoneResponse;
 use KanbanBoard\Infrastructure\Http\Rest\GithubApi\V3\Mapper\IssueResponseMapper;
 use KanbanBoard\Infrastructure\Http\Rest\GithubApi\V3\Mapper\MilestoneResponseMapper;
 
+
 class GithubApi implements GithubApiInterface
 {
     private Client $client;
