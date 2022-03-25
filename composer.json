@@ -16,7 +16,6 @@
   "require": {
     "php": "^7.4",
     "mustache/mustache": "^2.9",
-    "vierbergenlars/php-semver": "^3.0",
     "knplabs/github-api": "^3.0",
     "vlucas/phpdotenv": "^5.4",
     "guzzlehttp/guzzle": "^7.0.1",
