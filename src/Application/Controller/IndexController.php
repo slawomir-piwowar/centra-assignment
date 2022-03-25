@@ -20,12 +20,12 @@ class IndexController
 
     public function index(): void
     {
-        $viewEngine = new Mustache_Engine(array(
+        $viewEngine = new Mustache_Engine([
+            'pragmas' => [Mustache_Engine::PRAGMA_BLOCKS],
             'loader' => new Mustache_Loader_FilesystemLoader('../src/views'),
-            'partials_loader' => new Mustache_Loader_FilesystemLoader('../src/views/partials'),
-        ));
+        ]);
 
-        echo $viewEngine->render('index', [
+        echo $viewEngine->render('index/index', [
             'milestones' => array_map(static fn (Milestone $milestone): array => [
                 'url' => $milestone->getUrl(),
                 'milestone' => $milestone->getTitle(),

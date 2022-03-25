@@ -1,0 +1,18 @@
+<div class="list-group">
+    {{#active}}
+        {{#paused}}
+            <a href="{{url}}" class="list-group-item list-group-item-warning">
+                {{>index/partials/assignee}} <span class="font-italic small">{{title}}</span>
+                <span class="glyphicon"></span>
+                <span class="glyphicon glyphicon-new-window pull-right"></span>
+            </a>
+        {{/paused}}
+        {{^paused}}
+            <a href="{{url}}" class="list-group-item list-group-item-info">
+                {{>index/partials/assignee}} {{title}}
+                <span class="glyphicon"></span>
+                <span class="glyphicon glyphicon-new-window pull-right"></span>
+            </a>
+        {{/paused}}
+    {{/active}}
+</div>

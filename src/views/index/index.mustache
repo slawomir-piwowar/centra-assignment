@@ -1,0 +1,33 @@
+{{< layout }}
+    {{$ title }}Kanban Board{{/ title }}
+    {{$ content }}
+        {{#milestones}}
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <p class="panel-title">
+                        <a href="{{url}}">
+                            {{milestone}}
+                            <span class="glyphicon glyphicon-new-window pull-right"></span>
+                        </a>
+                    </p>
+                </div>
+                <div class="panel-body small">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            {{>index/partials/queued}}
+                        </div>
+                        <div class="col-sm-4">
+                            {{>index/partials/active}}
+                        </div>
+                        <div class="col-sm-4">
+                            {{>index/partials/completed}}
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer small">
+                    {{>index/partials/progress}}
+                </div>
+            </div>
+        {{/milestones}}
+    {{/ content }}
+{{/ layout }}
