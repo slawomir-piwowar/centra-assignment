@@ -16,7 +16,6 @@ class Issue
     private IssueState $issueState;
     private Progress $progress;
     private ?string $assignee;
-    private ?string $body;
     private ?DateTimeInterface $closedAt;
 
     public function __construct(
@@ -29,7 +28,6 @@ class Issue
         IssueState $issueState,
         Progress $progress,
         ?string $assignee,
-        ?string $body,
         ?DateTimeInterface $closedAt
     ) {
         $this->id = $id;
@@ -40,7 +38,6 @@ class Issue
         $this->issueState = $issueState;
         $this->progress = $progress;
         $this->assignee = $assignee;
-        $this->body = $body;
         $this->closedAt = $closedAt;
         $this->isPullRequest = $isPullRequest;
     }
@@ -83,11 +80,6 @@ class Issue
     public function getProgress(): Progress
     {
         return $this->progress;
-    }
-
-    public function getBody(): ?string
-    {
-        return $this->body;
     }
 
     public function getClosedAt(): ?DateTimeInterface

@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Infrastructure\Repository\Mapper;
 
+use DateTimeInterface;
 use KanbanBoard\Domain\IssueState;
+use KanbanBoard\Domain\Progress;
 use KanbanBoard\Infrastructure\Http\Rest\GithubApi\Response\IssueResponse;
 use KanbanBoard\Infrastructure\Repository\Mapper\IssueResponseToDomainMapper;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -38,6 +40,45 @@ class IssueResponseToDomainMapperTest extends TestCase
     public function testIsPaused(bool $expectedResult, array $currentLabels, array $pausedLabels): void
     {
         $this->assertEquals($expectedResult, $this->mapper->isPaused($currentLabels, $pausedLabels));
+    }
+
+    public function progressDataProvider(): array
+    {
+        return [
+            [0, null],
+            [0, ''],
+            [100, '[x]'],
+            [0, '[ ]'],
+            [50, '[x][ ]'],
+            [100, '[x][x][x][x][x]'],
+            [80, '[x][x][x][x][ ]'],
+            [60, '[x][x][x][ ][ ]'],
+            [40, '[x][x][ ][ ][ ]'],
+            [20, '[x][ ][ ][ ][ ]'],
+            [0, '[ ][ ][ ][ ][ ]'],
+        ];
+    }
+
+    /**
+     * @dataProvider progressDataProvider
+     */
+    public function testGetProgressIsWorkingCorrectly(int $expectedPercent, ?string $body): void
+    {
+        $this->assertEquals($expectedPercent, $this->mapper->getProgress($body)->getPercent());
+    }
+
+    public function testClosedAtIsNullIfNullIsGiven(): void
+    {
+        $this->assertNull($this->mapper->getClosedAt(null));
+    }
+
+    public function testClosedAtIsMappedToDatetimeIfNotNullGiven(): void
+    {
+        $closedAt = $this->mapper->getClosedAt('2000-01-01 01:01:01');
+
+        $this->assertNotNull($closedAt);
+        $this->assertInstanceOf(DateTimeInterface::class, $closedAt);
+        $this->assertEquals('2000-01-01 01:01:01', $closedAt->format('Y-m-d H:i:s'));
     }
 
     public function testStateIsCompletedWhenIssueIsClosed(): void
@@ -78,8 +119,14 @@ class IssueResponseToDomainMapperTest extends TestCase
     protected function setUp(): void
     {
         $this->issueResponse = $this->createMock(IssueResponse::class);
+
         $this->mapper = new class([]) extends IssueResponseToDomainMapper
         {
+            public function getProgress(?string $body): Progress
+            {
+                return parent::getProgress($body);
+            }
+
             public function isPaused(array $currentLabels, array $pausedLabels): bool
             {
                 return parent::isPaused($currentLabels, $pausedLabels);
@@ -88,6 +135,11 @@ class IssueResponseToDomainMapperTest extends TestCase
             public function getState(IssueResponse $issueResponse): IssueState
             {
                 return parent::getState($issueResponse);
+            }
+
+            public function getClosedAt(?string $closedAt): ?DateTimeInterface
+            {
+                return parent::getClosedAt($closedAt);
             }
         };
     }

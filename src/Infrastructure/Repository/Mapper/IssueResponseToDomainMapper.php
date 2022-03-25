@@ -29,10 +29,9 @@ class IssueResponseToDomainMapper
             $this->isPaused($issueResponse->getLabels(), $this->pausedLabels),
             $issueResponse->isPullRequest(),
             $this->getState($issueResponse),
-            $this->getProgress($issueResponse),
+            $this->getProgress($issueResponse->getBody()),
             $issueResponse->getAssignee(),
-            $issueResponse->getBody(),
-            $this->getClosedAt($issueResponse),
+            $this->getClosedAt($issueResponse->getClosedAt()),
         );
     }
 
@@ -54,18 +53,16 @@ class IssueResponseToDomainMapper
         return IssueState::QUEUED();
     }
 
-    protected function getProgress(IssueResponse $issueResponse): Progress
+    protected function getProgress(?string $body): Progress
     {
         return new Progress(
-            mb_substr_count(mb_strtolower($issueResponse->getBody() ?? ''), '[x]'),
-            mb_substr_count(mb_strtolower($issueResponse->getBody() ?? ''), '[ ]'),
+            mb_substr_count(mb_strtolower($body ?? ''), '[x]'),
+            mb_substr_count(mb_strtolower($body ?? ''), '[ ]'),
         );
     }
 
-    protected function getClosedAt(IssueResponse $issueResponse): ?DateTimeInterface
+    protected function getClosedAt(?string $closedAt): ?DateTimeInterface
     {
-        return $issueResponse->getClosedAt()
-            ? new DateTime($issueResponse->getClosedAt())
-            : null;
+        return $closedAt ? new DateTime($closedAt) : null;
     }
 }
