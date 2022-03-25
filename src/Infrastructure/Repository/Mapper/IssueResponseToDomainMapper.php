@@ -12,6 +12,13 @@ use KanbanBoard\Infrastructure\Http\Rest\GithubApi\Response\IssueResponse;
 
 class IssueResponseToDomainMapper
 {
+    private array $pausedLabels;
+
+    public function __construct(array $pausedLabels)
+    {
+        $this->pausedLabels = $pausedLabels;
+    }
+
     public function map(IssueResponse $issueResponse): Issue
     {
         return new Issue(
@@ -19,7 +26,7 @@ class IssueResponseToDomainMapper
             $issueResponse->getNumber(),
             $issueResponse->getTitle(),
             $issueResponse->getUrl(),
-            $issueResponse->hasLabelWaitingForFeedback(), //todo: parameter
+            $this->isPaused($issueResponse->getLabels(), $this->pausedLabels),
             $issueResponse->isPullRequest(),
             $this->getState($issueResponse),
             $this->getProgress($issueResponse),
@@ -27,6 +34,11 @@ class IssueResponseToDomainMapper
             $issueResponse->getBody(),
             $this->getClosedAt($issueResponse),
         );
+    }
+
+    protected function isPaused(array $currentLabels, array $pausedLabels): bool
+    {
+        return !!array_intersect($currentLabels, $pausedLabels);
     }
 
     protected function getState(IssueResponse $issueResponse): IssueState

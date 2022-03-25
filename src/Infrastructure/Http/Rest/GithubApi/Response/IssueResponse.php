@@ -5,7 +5,6 @@ namespace KanbanBoard\Infrastructure\Http\Rest\GithubApi\Response;
 
 class IssueResponse
 {
-    private const LABEL_WAITING_FOR_FEEDBACK = 'waiting-for-feedback';
     private const STATE_CLOSED = 'closed';
 
     private int $id;
@@ -84,11 +83,6 @@ class IssueResponse
         return $this->closedAt;
     }
 
-    public function hasLabelWaitingForFeedback(): bool
-    {
-        return in_array(self::LABEL_WAITING_FOR_FEEDBACK, $this->labels);
-    }
-
     public function isClosed(): bool
     {
         return self::STATE_CLOSED === $this->state;
@@ -97,5 +91,10 @@ class IssueResponse
     public function isPullRequest(): bool
     {
         return $this->isPullRequest;
+    }
+
+    public function getLabels(): array
+    {
+        return $this->labels;
     }
 }
