@@ -19,7 +19,8 @@ class IssueResponseToDomainMapper
             $issueResponse->getNumber(),
             $issueResponse->getTitle(),
             $issueResponse->getUrl(),
-            $issueResponse->hasLabelWaitingForFeedback(),
+            $issueResponse->hasLabelWaitingForFeedback(), //todo: parameter
+            $issueResponse->isPullRequest(),
             $this->getState($issueResponse),
             $this->getProgress($issueResponse),
             $issueResponse->getAssignee(),

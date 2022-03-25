@@ -15,6 +15,7 @@ class IssueResponse
     private string $url;
     /** @var array<string>  */
     private array $labels;
+    private bool $isPullRequest;
     private ?string $assignee;
     private ?string $body;
     private ?string $closedAt;
@@ -26,19 +27,21 @@ class IssueResponse
         string $state,
         string $url,
         array $labels,
+        bool $isPullRequest,
         ?string $assignee,
         ?string $body,
         ?string $closedAt
     ) {
         $this->id = $id;
-        $this->number = $number;
-        $this->title = $title;
-        $this->state = $state;
         $this->url = $url;
         $this->body = $body;
+        $this->title = $title;
+        $this->state = $state;
+        $this->number = $number;
+        $this->labels = $labels;
         $this->assignee = $assignee;
         $this->closedAt = $closedAt;
-        $this->labels = $labels;
+        $this->isPullRequest = $isPullRequest;
     }
 
     public function getId(): int
@@ -89,5 +92,10 @@ class IssueResponse
     public function isClosed(): bool
     {
         return self::STATE_CLOSED === $this->state;
+    }
+
+    public function isPullRequest(): bool
+    {
+        return $this->isPullRequest;
     }
 }

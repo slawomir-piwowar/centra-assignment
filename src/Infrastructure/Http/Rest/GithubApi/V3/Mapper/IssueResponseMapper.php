@@ -17,6 +17,7 @@ class IssueResponseMapper
             Arrays::get($data, 'state'),
             Arrays::get($data, 'url'),
             array_column(Arrays::get($data, 'labels', []), 'name'),
+            array_key_exists('pull_request', $data),
             Arrays::get($data, ['assignee', 'avatar_url'], null),
             Arrays::get($data, 'body'),
             Arrays::get($data, 'closed_at'),

@@ -52,7 +52,10 @@ class Milestone
      */
     public function queued(): array
     {
-        return array_values(array_filter($this->issues, fn (Issue $issue): bool => $issue->isQueued()));
+        return array_values(array_filter(
+            $this->issues,
+            fn (Issue $issue): bool => $issue->isQueued() && !$issue->isPullRequest(),
+        ));
     }
 
     /**
@@ -60,7 +63,10 @@ class Milestone
      */
     public function active(): array
     {
-        return array_values(array_filter($this->issues, fn (Issue $issue): bool => $issue->isActive()));
+        return array_values(array_filter(
+            $this->issues,
+            fn (Issue $issue): bool => $issue->isActive() && !$issue->isPullRequest(),
+        ));
     }
 
     /**
@@ -68,6 +74,9 @@ class Milestone
      */
     public function completed(): array
     {
-        return array_values(array_filter($this->issues, fn (Issue $issue): bool => $issue->isCompleted()));
+        return array_values(array_filter(
+            $this->issues,
+            fn (Issue $issue): bool => $issue->isCompleted() && !$issue->isPullRequest(),
+        ));
     }
 }

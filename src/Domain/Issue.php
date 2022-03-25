@@ -12,6 +12,7 @@ class Issue
     private string $title;
     private string $url;
     private bool $isPaused;
+    private bool $isPullRequest;
     private IssueState $issueState;
     private Progress $progress;
     private ?string $assignee;
@@ -24,6 +25,7 @@ class Issue
         string $title,
         string $url,
         bool $isPaused,
+        bool $isPullRequest,
         IssueState $issueState,
         Progress $progress,
         ?string $assignee,
@@ -40,6 +42,7 @@ class Issue
         $this->assignee = $assignee;
         $this->body = $body;
         $this->closedAt = $closedAt;
+        $this->isPullRequest = $isPullRequest;
     }
 
     public function getId(): int
@@ -105,5 +108,10 @@ class Issue
     public function isQueued(): bool
     {
         return $this->issueState->isEqual(IssueState::QUEUED());
+    }
+
+    public function isPullRequest(): bool
+    {
+        return $this->isPullRequest;
     }
 }
