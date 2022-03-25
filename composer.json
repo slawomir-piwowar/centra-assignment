@@ -44,7 +44,8 @@
     "phpstan": "vendor/bin/phpstan analyse src tests config --level=6 --memory-limit 1G",
     "phpcs": "vendor/bin/phpcs src/ tests/ config/ --standard=./vendor/slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml -s",
     "phpcbf": "vendor/bin/phpcbf src/ tests/ config/ --standard=./vendor/slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml -s",
-    "phpmd": "vendor/bin/phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode"
+    "phpmd": "vendor/bin/phpmd src/ text cleancode,codesize,controversial,design,naming,unusedcode",
+    "cache:clear": "rm var/cache/*"
   },
   "config": {
     "allow-plugins": {

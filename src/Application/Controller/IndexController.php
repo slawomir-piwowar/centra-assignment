@@ -23,6 +23,7 @@ class IndexController
         $viewEngine = new Mustache_Engine([
             'pragmas' => [Mustache_Engine::PRAGMA_BLOCKS],
             'loader' => new Mustache_Loader_FilesystemLoader('../src/views'),
+            'cache' => '../var/cache',
         ]);
 
         echo $viewEngine->render('index/index', [
