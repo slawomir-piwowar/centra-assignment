@@ -13,7 +13,6 @@ class IssueTest extends TestCase
 {
     private string $title;
     private string $url;
-    private bool $isPaused;
     private bool $isPullRequest;
     private Progress $progress;
     private string $assignee;
@@ -25,11 +24,35 @@ class IssueTest extends TestCase
 
         $this->assertEquals($this->title, $issue->getTitle());
         $this->assertEquals($this->url, $issue->getUrl());
-        $this->assertEquals($this->isPaused, $issue->isPaused());
+        $this->assertFalse($issue->isPaused());
+        $this->assertEquals(0, $issue->getPausedLabelsCount());
         $this->assertEquals($this->isPullRequest, $issue->isPullRequest());
         $this->assertSame($this->progress, $issue->getProgress());
         $this->assertEquals($this->assignee, $issue->getAssignee());
         $this->assertSame($this->closedAt, $issue->getClosedAt());
+    }
+
+    public function pausedLabelsDataProvider(): array
+    {
+        return [
+            [false, 0, 0],
+            [true, 1, 1],
+            [true, 999999, 999999],
+        ];
+    }
+
+    /**
+     * @dataProvider pausedLabelsDataProvider
+     */
+    public function testPausedLabels(
+        bool $expectedIsPaused,
+        int $expectedPausedLabelsCount,
+        int $pausedLabelsCount
+    ): void {
+        $issue = $this->getIssueWithState($this->createMock(IssueState::class), $pausedLabelsCount);
+
+        $this->assertEquals($expectedIsPaused, $issue->isPaused());
+        $this->assertEquals($expectedPausedLabelsCount, $issue->getPausedLabelsCount());
     }
 
     public function testIssueIsCompleted(): void
@@ -59,12 +82,12 @@ class IssueTest extends TestCase
         $this->assertTrue($issue->isQueued());
     }
 
-    protected function getIssueWithState(IssueState $issueState): Issue
+    protected function getIssueWithState(IssueState $issueState, $pausedLabelsCount = 0): Issue
     {
         return new Issue(
             $this->title,
             $this->url,
-            $this->isPaused,
+            $pausedLabelsCount,
             $this->isPullRequest,
             $issueState,
             $this->progress,
@@ -77,7 +100,6 @@ class IssueTest extends TestCase
     {
         $this->title = 'title';
         $this->url = 'url';
-        $this->isPaused = true;
         $this->isPullRequest = false;
         $this->progress = $this->createMock(Progress::class);
         $this->assignee = 'assignee';

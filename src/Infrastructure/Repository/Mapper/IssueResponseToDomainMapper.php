@@ -24,7 +24,7 @@ class IssueResponseToDomainMapper
         return new Issue(
             $issueResponse->getTitle(),
             $issueResponse->getUrl(),
-            $this->isPaused($issueResponse->getLabels(), $this->pausedLabels),
+            $this->pausedLabels($issueResponse->getLabels(), $this->pausedLabels),
             $issueResponse->isPullRequest(),
             $this->getState($issueResponse),
             $this->getProgress($issueResponse->getBody()),
@@ -33,9 +33,9 @@ class IssueResponseToDomainMapper
         );
     }
 
-    protected function isPaused(array $currentLabels, array $pausedLabels): bool
+    protected function pausedLabels(array $currentLabels, array $pausedLabels): int
     {
-        return !!array_intersect($currentLabels, $pausedLabels);
+        return count(array_intersect($currentLabels, $pausedLabels));
     }
 
     protected function getState(IssueResponse $issueResponse): IssueState

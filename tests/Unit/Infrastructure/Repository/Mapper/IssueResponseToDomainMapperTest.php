@@ -19,27 +19,27 @@ class IssueResponseToDomainMapperTest extends TestCase
     private MockObject $issueResponse;
     private IssueResponseToDomainMapper $mapper;
 
-    public function isPausedDataProvider(): array
+    public function pausedLabelsDataProvider(): array
     {
         return [
-            'empty both arrays' => [false, [], []],
-            'empty paused labels' => [false, ['test'], []],
-            'empty current labels' => [false, [], ['test']],
-            'different labels' => [false, ['test1'], ['test2']],
-            'different multiple labels' => [false, ['test1', 'test2', 'test3'], ['test4', 'test5', 'test6']],
-            'same single labels' => [true, ['test1'], ['test1']],
-            'one match' => [true, ['test1', 'test5', 'test3'], ['test4', 'test5', 'test6']],
-            'two matches' => [true, ['test1', 'test5', 'test6'], ['test4', 'test5', 'test6']],
-            'all matches' => [true, ['test4', 'test5', 'test6'], ['test4', 'test5', 'test6']],
+            'empty both arrays' => [0, [], []],
+            'empty paused labels' => [0, ['test'], []],
+            'empty current labels' => [0, [], ['test']],
+            'different labels' => [0, ['test1'], ['test2']],
+            'different multiple labels' => [0, ['test1', 'test2', 'test3'], ['test4', 'test5', 'test6']],
+            'same single labels' => [1, ['test1'], ['test1']],
+            'one match' => [1, ['test1', 'test5', 'test3'], ['test4', 'test5', 'test6']],
+            'two matches' => [2, ['test1', 'test5', 'test6'], ['test4', 'test5', 'test6']],
+            'all matches' => [3, ['test4', 'test5', 'test6'], ['test4', 'test5', 'test6']],
         ];
     }
 
     /**
-     * @dataProvider isPausedDataProvider
+     * @dataProvider pausedLabelsDataProvider
      */
-    public function testIsPaused(bool $expectedResult, array $currentLabels, array $pausedLabels): void
+    public function testPausedLabels(int $expectedResult, array $currentLabels, array $pausedLabels): void
     {
-        $this->assertEquals($expectedResult, $this->mapper->isPaused($currentLabels, $pausedLabels));
+        $this->assertEquals($expectedResult, $this->mapper->pausedLabels($currentLabels, $pausedLabels));
     }
 
     public function progressDataProvider(): array
@@ -127,9 +127,9 @@ class IssueResponseToDomainMapperTest extends TestCase
                 return parent::getProgress($body);
             }
 
-            public function isPaused(array $currentLabels, array $pausedLabels): bool
+            public function pausedLabels(array $currentLabels, array $pausedLabels): int
             {
-                return parent::isPaused($currentLabels, $pausedLabels);
+                return parent::pausedLabels($currentLabels, $pausedLabels);
             }
 
             public function getState(IssueResponse $issueResponse): IssueState

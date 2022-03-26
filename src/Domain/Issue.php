@@ -9,7 +9,7 @@ class Issue
 {
     private string $title;
     private string $url;
-    private bool $isPaused;
+    private int $pausedLabelsCount;
     private bool $isPullRequest;
     private IssueState $issueState;
     private Progress $progress;
@@ -19,7 +19,7 @@ class Issue
     public function __construct(
         string $title,
         string $url,
-        bool $isPaused,
+        int $pausedLabelsCount,
         bool $isPullRequest,
         IssueState $issueState,
         Progress $progress,
@@ -28,7 +28,7 @@ class Issue
     ) {
         $this->title = $title;
         $this->url = $url;
-        $this->isPaused = $isPaused;
+        $this->pausedLabelsCount = $pausedLabelsCount;
         $this->issueState = $issueState;
         $this->progress = $progress;
         $this->assignee = $assignee;
@@ -53,7 +53,12 @@ class Issue
 
     public function isPaused(): bool
     {
-        return $this->isPaused;
+        return !!$this->pausedLabelsCount;
+    }
+
+    public function getPausedLabelsCount(): int
+    {
+        return $this->pausedLabelsCount;
     }
 
     public function getProgress(): Progress

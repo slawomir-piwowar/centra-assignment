@@ -83,7 +83,7 @@ class MilestoneTest extends TestCase
         return new Issue(
             'test_title',
             'test_url',
-            true,
+            0,
             $isPullRequest,
             $issueState,
             $this->createMock(Progress::class),

@@ -54,10 +54,16 @@ class Milestone
      */
     public function active(): array
     {
-        return array_values(array_filter(
+        $result = array_values(array_filter(
             $this->issues,
             fn (Issue $issue): bool => $issue->isActive() && !$issue->isPullRequest(),
         ));
+
+        usort($result, static fn (Issue $a, Issue $b): int =>
+            $a->getPausedLabelsCount() <=> $b->getPausedLabelsCount() ?: $a->getTitle() <=> $b->getTitle()
+        );
+
+        return $result;
     }
 
     /**
