@@ -7,8 +7,6 @@ use DateTimeInterface;
 
 class Issue
 {
-    private int $id;
-    private int $number;
     private string $title;
     private string $url;
     private bool $isPaused;
@@ -19,8 +17,6 @@ class Issue
     private ?DateTimeInterface $closedAt;
 
     public function __construct(
-        int $id,
-        int $number,
         string $title,
         string $url,
         bool $isPaused,
@@ -30,8 +26,6 @@ class Issue
         ?string $assignee,
         ?DateTimeInterface $closedAt
     ) {
-        $this->id = $id;
-        $this->number = $number;
         $this->title = $title;
         $this->url = $url;
         $this->isPaused = $isPaused;
@@ -40,16 +34,6 @@ class Issue
         $this->assignee = $assignee;
         $this->closedAt = $closedAt;
         $this->isPullRequest = $isPullRequest;
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function getNumber(): int
-    {
-        return $this->number;
     }
 
     public function getTitle(): string
@@ -70,11 +54,6 @@ class Issue
     public function isPaused(): bool
     {
         return $this->isPaused;
-    }
-
-    public function getIssueState(): IssueState
-    {
-        return $this->issueState;
     }
 
     public function getProgress(): Progress

@@ -11,11 +11,9 @@ class IssueResponseMapper
     public function map(array $data): IssueResponse
     {
         return new IssueResponse(
-            Arrays::get($data, 'id'),
-            Arrays::get($data, 'number'),
             Arrays::get($data, 'title'),
             Arrays::get($data, 'state'),
-            Arrays::get($data, 'url'),
+            Arrays::get($data, 'html_url'),
             array_column(Arrays::get($data, 'labels', []), 'name'),
             array_key_exists('pull_request', $data),
             Arrays::get($data, ['assignee', 'avatar_url'], null),

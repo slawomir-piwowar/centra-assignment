@@ -7,8 +7,6 @@ class IssueResponse
 {
     private const STATE_CLOSED = 'closed';
 
-    private int $id;
-    private int $number;
     private string $title;
     private string $state;
     private string $url;
@@ -20,8 +18,6 @@ class IssueResponse
     private ?string $closedAt;
 
     public function __construct(
-        int $id,
-        int $number,
         string $title,
         string $state,
         string $url,
@@ -31,26 +27,14 @@ class IssueResponse
         ?string $body,
         ?string $closedAt
     ) {
-        $this->id = $id;
         $this->url = $url;
         $this->body = $body;
         $this->title = $title;
         $this->state = $state;
-        $this->number = $number;
         $this->labels = $labels;
         $this->assignee = $assignee;
         $this->closedAt = $closedAt;
         $this->isPullRequest = $isPullRequest;
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function getNumber(): int
-    {
-        return $this->number;
     }
 
     public function getTitle(): string

@@ -22,8 +22,6 @@ class IssueResponseToDomainMapper
     public function map(IssueResponse $issueResponse): Issue
     {
         return new Issue(
-            $issueResponse->getId(),
-            $issueResponse->getNumber(),
             $issueResponse->getTitle(),
             $issueResponse->getUrl(),
             $this->isPaused($issueResponse->getLabels(), $this->pausedLabels),

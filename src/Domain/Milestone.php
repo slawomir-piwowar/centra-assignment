@@ -5,7 +5,6 @@ namespace KanbanBoard\Domain;
 
 class Milestone
 {
-    private int $number;
     private string $title;
     private string $url;
     private Progress $progress;
@@ -14,22 +13,15 @@ class Milestone
     private array $issues;
 
     public function __construct(
-        int $number,
         string $title,
         string $url,
         array $issues,
         Progress $progress
     ) {
-        $this->number = $number;
         $this->title = $title;
         $this->url = $url;
         $this->progress = $progress;
         $this->issues = array_map(static fn (Issue $issue): Issue => $issue, $issues);
-    }
-
-    public function getNumber(): int
-    {
-        return $this->number;
     }
 
     public function getTitle(): string

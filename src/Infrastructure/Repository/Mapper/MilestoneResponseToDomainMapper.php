@@ -23,7 +23,6 @@ class MilestoneResponseToDomainMapper
         IssueResponse ...$issueResponses
     ): Milestone {
         return new Milestone(
-            $milestoneResponse->getNumber(),
             $milestoneResponse->getTitle(),
             $milestoneResponse->getUrl(),
             array_map(

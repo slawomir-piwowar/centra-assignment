@@ -3,6 +3,7 @@
         <a href="{{url}}" class="list-group-item list-group-item-success">
             {{>index/partials/assignee}} <s>{{title}}</s>
             <span class="glyphicon glyphicon-new-window pull-right"></span>
+            <span class="pull-right">(Closed at: {{closed_at}}) </span>
         </a>
     {{/completed}}
 </div>

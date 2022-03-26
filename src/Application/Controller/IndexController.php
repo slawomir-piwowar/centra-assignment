@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace KanbanBoard\Application\Controller;
 
+use DateTimeInterface;
 use KanbanBoard\Application\Provider\TokenProviderInterface;
 use KanbanBoard\Application\Repository\BoardRepositoryInterface;
 use KanbanBoard\Domain\Issue;
@@ -47,11 +48,15 @@ class IndexController
                     'title' => $issue->getTitle(),
                     'paused' => $issue->isPaused(),
                     'assignee' => $issue->getAssignee(),
+                    'progress' => [
+                        'percent' => $issue->getProgress()->getPercent(),
+                    ],
                 ], $milestone->active()),
                 'completed' => array_map(static fn(Issue $issue): array => [
                     'url' => $issue->getUrl(),
                     'title' => $issue->getTitle(),
                     'assignee' => $issue->getAssignee(),
+                    'closed_at' => $issue->getClosedAt()->format(DateTimeInterface::ISO8601),
                 ], $milestone->completed()),
                 'progress' => [
                     'percent' => $milestone->getProgress()->getPercent(),

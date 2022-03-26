@@ -5,6 +5,7 @@
                 {{>index/partials/assignee}} <span class="font-italic small">{{title}}</span>
                 <span class="glyphicon"></span>
                 <span class="glyphicon glyphicon-new-window pull-right"></span>
+                {{>index/partials/progress}}
             </a>
         {{/paused}}
         {{^paused}}
@@ -12,6 +13,7 @@
                 {{>index/partials/assignee}} {{title}}
                 <span class="glyphicon"></span>
                 <span class="glyphicon glyphicon-new-window pull-right"></span>
+                {{>index/partials/progress}}
             </a>
         {{/paused}}
     {{/active}}
