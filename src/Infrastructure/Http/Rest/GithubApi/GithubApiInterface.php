@@ -11,10 +11,10 @@ interface GithubApiInterface
     /**
      * @return array<MilestoneResponse>
      */
-    public function getMilestones(string $repository): array;
+    public function getMilestones(string $token, string $repository): array;
 
     /**
      * @return array<IssueResponse>
      */
-    public function getIssues(string $repository, int $number): array;
+    public function getIssues(string $token, string $repository, int $number): array;
 }

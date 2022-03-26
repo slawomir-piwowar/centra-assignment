@@ -23,15 +23,15 @@ class BoardRepository implements BoardRepositoryInterface
         $this->milestoneResponseToDomainMapper = $milestoneResponseToDomainMapper;
     }
 
-    public function getByRepository(string $repository): Board
+    public function getByRepository(string $token, string $repository): Board
     {
         return new Board(
-            ...array_map(function (MilestoneResponse $milestoneResponse) use ($repository): Milestone {
+            ...array_map(function (MilestoneResponse $milestoneResponse) use ($token, $repository): Milestone {
                 return $this->milestoneResponseToDomainMapper->map(
                     $milestoneResponse,
-                    ...$this->githubApi->getIssues($repository, $milestoneResponse->getNumber()),
+                    ...$this->githubApi->getIssues($token, $repository, $milestoneResponse->getNumber()),
                 );
-            }, $this->githubApi->getMilestones($repository))
+            }, $this->githubApi->getMilestones($token, $repository))
         );
     }
 }

@@ -7,5 +7,5 @@ use KanbanBoard\Domain\Board;
 
 interface BoardRepositoryInterface
 {
-    public function getByRepository(string $repository): Board;
+    public function getByRepository(string $token, string $repository): Board;
 }

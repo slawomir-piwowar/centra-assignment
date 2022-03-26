@@ -36,8 +36,10 @@ class GithubApi implements GithubApiInterface
     /**
      * @return array<MilestoneResponse>
      */
-    public function getMilestones(string $repository): array
+    public function getMilestones(string $token, string $repository): array
     {
+        $this->setToken($token);
+
         return array_map(
             fn (array $data): MilestoneResponse => $this->milestoneResponseMapper->map($data),
             $this->client->api('issues')->milestones()->all($this->account, $repository),
@@ -47,8 +49,10 @@ class GithubApi implements GithubApiInterface
     /**
      * @return array<IssueResponse>
      */
-    public function getIssues(string $repository, int $number): array
+    public function getIssues(string $token, string $repository, int $number): array
     {
+        $this->setToken($token);
+
         return array_map(
             fn (array $data): IssueResponse => $this->issueResponseMapper->map($data),
             $this->client->api('issue')->all($this->account, $repository, [
@@ -56,5 +60,10 @@ class GithubApi implements GithubApiInterface
                 'state' => 'all',
             ]),
         );
+    }
+
+    private function setToken(string $token): void
+    {
+        $this->client->authenticate($token, AuthMethod::ACCESS_TOKEN);
     }
 }
