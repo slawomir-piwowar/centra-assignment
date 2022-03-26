@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 
-use KanbanBoard\ApplicationNew;
+use KanbanBoard\Application;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-ApplicationNew::init()->run();
+Application::init()->run();

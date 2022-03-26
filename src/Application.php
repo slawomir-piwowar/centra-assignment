@@ -3,111 +3,53 @@ declare(strict_types=1);
 
 namespace KanbanBoard;
 
-use Michelf\Markdown;
+use DI\Container;
+use DI\ContainerBuilder;
+use DI\Definition\Source\DefinitionFile;
+use DI\Definition\Source\ReflectionBasedAutowiring;
+use Dotenv\Dotenv;
+use KanbanBoard\Application\Controller\IndexController;
+use RuntimeException;
 
-/**
- * @deprecated
- */
 class Application
 {
-    private Github $github;
-    private array $repositories;
-    private array $paused_labels;
+    protected const SERVICES_FILE = __DIR__ . '/../config/services.php';
+    protected const ENV_DIR = __DIR__ . '/../';
 
-    public function __construct(Github $github, array $repositories, array $paused_labels = [])
+    protected Container $container;
+
+    public static function init(): self
     {
-        $this->github = $github;
-        $this->repositories = $repositories;
-        $this->paused_labels = $paused_labels;
+        Dotenv::createImmutable(self::ENV_DIR)->load();
+
+        $builder = new ContainerBuilder();
+        $builder->useAutowiring(true);
+        $builder->addDefinitions(new DefinitionFile(self::SERVICES_FILE, new ReflectionBasedAutowiring()));
+
+        return new self($builder->build());
     }
 
-    private static function _state($issue)
-    {
-        if ($issue['state'] === 'closed')
-            return 'completed';
-        else if (Utilities::hasValue($issue, 'assignee') && count($issue['assignee']) > 0)
-            return 'active';
-        else
-            return 'queued';
-    }
-
-    public function board()
-    {
-        $ms = array();
-        foreach ($this->repositories as $repository) {
-            foreach ($this->github->milestones($repository) as $data) {
-                $ms[$data['title']] = $data;
-                $ms[$data['title']]['repository'] = $repository;
-            }
-        }
-        ksort($ms);
-        foreach ($ms as $name => $data) {
-            $issues = $this->issues($data['repository'], $data['number']);
-            $percent = self::_percent($data['closed_issues'], $data['open_issues']);
-            if ($percent) {
-                $milestones[] = array(
-                    'milestone' => $name,
-                    'url' => $data['html_url'],
-                    'progress' => $percent,
-                    'queued' => $issues['queued'],
-                    'active' => $issues['active'],
-                    'completed' => $issues['completed']
-                );
-            }
-        }
-        return $milestones;
-    }
-
-    private function issues($repository, $milestone_id)
-    {
-        $i = $this->github->issues($repository, $milestone_id);
-        foreach ($i as $ii) {
-            if (isset($ii['pull_request']))
-                continue;
-            $issues[$ii['state'] === 'closed' ? 'completed' : (($ii['assignee']) ? 'active' : 'queued')][] = array(
-                'id' => $ii['id'], 'number' => $ii['number'],
-                'title' => $ii['title'],
-                'body' => Markdown::defaultTransform($ii['body']),
-                'url' => $ii['html_url'],
-                'assignee' => (is_array($ii) && array_key_exists('assignee', $ii) && !empty($ii['assignee'])) ? $ii['assignee']['avatar_url'] . '?s=16' : NULL,
-                'paused' => self::labels_match($ii, $this->paused_labels),
-                'progress' => self::_percent(
-                    substr_count(strtolower($ii['body'] ?? ''), '[x]'),
-                    substr_count(strtolower($ii['body'] ?? ''), '[ ]')),
-                'closed' => $ii['closed_at']
+    public function run(
+        string $controller = IndexController::class,
+        string $action = 'index'
+    ): void {
+        if (!class_exists($controller)) {
+            throw new RuntimeException(
+                sprintf('Controller \'%s\' does not exists', $controller)
             );
         }
-        usort($issues['active'], function ($a, $b) {
-            return count($a['paused']) - count($b['paused']) === 0 ? strcmp($a['title'], $b['title']) : count($a['paused']) - count($b['paused']);
-        });
-        return $issues;
-    }
 
-    private static function labels_match($issue, $needles)
-    {
-        if (Utilities::hasValue($issue, 'labels')) {
-            foreach ($issue['labels'] as $label) {
-                if (in_array($label['name'], $needles)) {
-                    return array($label['name']);
-                }
-            }
-        }
-        return array();
-
-    }
-
-    private static function _percent($complete, $remaining)
-    {
-        $total = $complete + $remaining;
-        if ($total > 0) {
-            $percent = ($complete or $remaining) ? round($complete / $total * 100) : 0;
-            return array(
-                'total' => $total,
-                'complete' => $complete,
-                'remaining' => $remaining,
-                'percent' => $percent
+        if (!method_exists($controller, $action)) {
+            throw new RuntimeException(
+                sprintf('Method \'%s\' does not exists', $action)
             );
         }
-        return array();
+
+        $this->container->get($controller)->$action();
+    }
+
+    private function __construct(Container $container)
+    {
+        $this->container = $container;
     }
 }
