@@ -20,14 +20,11 @@ class GithubApi implements GithubApiInterface
 
     public function __construct(
         string $account,
-        string $token,
         Client $client,
         MilestoneResponseMapper $milestoneResponseMapper,
         IssueResponseMapper $issueResponseMapper
     ) {
         $this->client = $client;
-        // TODO
-        $this->client->authenticate($token, AuthMethod::ACCESS_TOKEN);
         $this->milestoneResponseMapper = $milestoneResponseMapper;
         $this->issueResponseMapper = $issueResponseMapper;
         $this->account = $account;

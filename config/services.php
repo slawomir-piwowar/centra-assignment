@@ -22,8 +22,7 @@ return [
     SessionInterface::class => DI\get(Session::class),
 
     GithubApi::class => DI\autowire()
-        ->constructorParameter('account', DI\env('GH_ACCOUNT'))
-        ->constructorParameter('token', DI\env('TEMP_GH_TOKEN')),
+        ->constructorParameter('account', DI\env('GH_ACCOUNT')),
 
     Github::class => DI\autowire()->constructorParameter('options', [
         'clientId' => DI\env('GH_CLIENT_ID'),
