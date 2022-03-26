@@ -39,5 +39,5 @@ return [
         ->constructorParameter('pausedLabels', DI\get('paused_labels')),
 
     IndexController::class => DI\autowire()
-        ->constructorParameter('repository', DI\env('GH_REPOSITORIES'))
+        ->constructorParameter('repositories', DI\env('GH_REPOSITORIES'))
 ];
