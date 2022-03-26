@@ -4,7 +4,8 @@ declare(strict_types=1);
 namespace KanbanBoard\Application\Controller;
 
 use DateTimeInterface;
-use KanbanBoard\Application\Provider\TokenProviderInterface;
+use KanbanBoard\Application\Provider\RepositoriesProvider\RepositoriesProviderInterface;
+use KanbanBoard\Application\Provider\TokenProvider\TokenProviderInterface;
 use KanbanBoard\Application\Repository\BoardRepositoryInterface;
 use KanbanBoard\Domain\Issue;
 use KanbanBoard\Domain\Milestone;
@@ -12,23 +13,26 @@ use Mustache_Engine;
 use Mustache_Loader_FilesystemLoader;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @codeCoverageIgnore
+ */
 class IndexController
 {
     private Response $response;
-    private array $repositories;
     private TokenProviderInterface $tokenProvider;
     private BoardRepositoryInterface $boardRepository;
+    private RepositoriesProviderInterface $repositoriesProvider;
 
     public function __construct(
         Response $response,
-        string $repositories,
         TokenProviderInterface $tokenProvider,
-        BoardRepositoryInterface $boardRepository
+        BoardRepositoryInterface $boardRepository,
+        RepositoriesProviderInterface $repositoriesProvider
     ) {
         $this->response = $response;
-        $this->repositories = explode('|', $repositories);
         $this->tokenProvider = $tokenProvider;
         $this->boardRepository = $boardRepository;
+        $this->repositoriesProvider = $repositoriesProvider;
     }
 
     public function index(): void
@@ -62,7 +66,7 @@ class IndexController
                     'percent' => $milestone->getProgress()->getPercent(),
                 ],
             ], $this->boardRepository->getByRepository($token, $repository)->getMilestones())
-        ], $this->repositories);
+        ], $this->repositoriesProvider->provide());
 
         $this->render('index/index', [
             'milestones' => array_merge(...array_merge(...$milestones)),

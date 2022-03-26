@@ -8,7 +8,6 @@ class Milestone
     private string $title;
     private string $url;
     private Progress $progress;
-
     /** @var array<Issue>  */
     private array $issues;
 

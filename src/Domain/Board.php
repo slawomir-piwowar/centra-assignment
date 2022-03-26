@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace KanbanBoard\Domain;
 
-use InvalidArgumentException;
-
 class Board
 {
     /** @var array<Milestone> */
@@ -12,10 +10,6 @@ class Board
 
     public function __construct(Milestone ...$milestones)
     {
-        if (empty($milestones)) {
-            throw new InvalidArgumentException('Milestones cannot be empty');
-        }
-
         $this->milestones = $milestones;
     }
 

@@ -39,7 +39,7 @@ class GithubApi implements GithubApiInterface
 
         return array_map(
             fn (array $data): MilestoneResponse => $this->milestoneResponseMapper->map($data),
-            $this->client->api('issues')->milestones()->all($this->account, $repository),
+            $this->fetchMilestones($repository),
         );
     }
 
@@ -52,11 +52,21 @@ class GithubApi implements GithubApiInterface
 
         return array_map(
             fn (array $data): IssueResponse => $this->issueResponseMapper->map($data),
-            $this->client->api('issue')->all($this->account, $repository, [
-                'milestone' => $number,
-                'state' => 'all',
-            ]),
+            $this->fetchIssues($repository, $number),
         );
+    }
+
+    protected function fetchMilestones(string $repository): array
+    {
+        return $this->client->api('issues')->milestones()->all($this->account, $repository);
+    }
+
+    protected function fetchIssues(string $repository, int $number): array
+    {
+        return $this->client->api('issue')->all($this->account, $repository, [
+            'milestone' => $number,
+            'state' => 'all',
+        ]);
     }
 
     private function setToken(string $token): void

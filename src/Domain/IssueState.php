@@ -26,11 +26,6 @@ class IssueState
         return new self(self::QUEUED);
     }
 
-    private function __construct(string $state)
-    {
-        $this->state = $state;
-    }
-
     public function toString(): string
     {
         return $this->state;
@@ -39,5 +34,10 @@ class IssueState
     public function isEqual(self $issueState): bool
     {
         return $this->state === $issueState->toString();
+    }
+
+    private function __construct(string $state)
+    {
+        $this->state = $state;
     }
 }

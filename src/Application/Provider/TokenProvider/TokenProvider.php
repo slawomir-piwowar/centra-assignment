@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace KanbanBoard\Application\Provider;
+namespace KanbanBoard\Application\Provider\TokenProvider;
 
 use League\OAuth2\Client\Provider\Github;
 use Symfony\Component\HttpFoundation\RedirectResponse;

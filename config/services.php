@@ -2,8 +2,10 @@
 declare(strict_types=1);
 
 use KanbanBoard\Application\Controller\IndexController;
-use KanbanBoard\Application\Provider\TokenProvider;
-use KanbanBoard\Application\Provider\TokenProviderInterface;
+use KanbanBoard\Application\Provider\RepositoriesProvider\RepositoriesProvider;
+use KanbanBoard\Application\Provider\RepositoriesProvider\RepositoriesProviderInterface;
+use KanbanBoard\Application\Provider\TokenProvider\TokenProvider;
+use KanbanBoard\Application\Provider\TokenProvider\TokenProviderInterface;
 use KanbanBoard\Application\Repository\BoardRepositoryInterface;
 use KanbanBoard\Infrastructure\Http\Rest\GithubApi\GithubApiInterface;
 use KanbanBoard\Infrastructure\Http\Rest\GithubApi\V3\GithubApi;
@@ -20,6 +22,7 @@ return [
     BoardRepositoryInterface::class => DI\get(BoardRepository::class),
     TokenProviderInterface::class => DI\get(TokenProvider::class),
     SessionInterface::class => DI\get(Session::class),
+    RepositoriesProviderInterface::class => DI\get(RepositoriesProvider::class),
 
     GithubApi::class => DI\autowire()
         ->constructorParameter('account', DI\env('GH_ACCOUNT')),
@@ -38,6 +41,6 @@ return [
     IssueResponseToDomainMapper::class => DI\autowire()
         ->constructorParameter('pausedLabels', DI\get('paused_labels')),
 
-    IndexController::class => DI\autowire()
+    RepositoriesProvider::class => DI\autowire()
         ->constructorParameter('repositories', DI\env('GH_REPOSITORIES'))
 ];
