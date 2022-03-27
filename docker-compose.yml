@@ -6,6 +6,6 @@ services:
     build:
       context: docker/php
     ports:
-      - '8000:8000'
+      - '8002:8002'
     volumes:
       - .:/var/www

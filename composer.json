@@ -37,7 +37,7 @@
   },
   "minimum-stability": "stable",
   "scripts": {
-    "serve": "php -S 127.0.0.1:8000 -t src/public",
+    "serve": "php -S 127.0.0.1:80001 -t src/public",
     "test": "vendor/bin/phpunit",
     "check": [
       "@parallel-lint",
