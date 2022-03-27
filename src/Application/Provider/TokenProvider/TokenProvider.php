@@ -38,6 +38,7 @@ class TokenProvider implements TokenProviderInterface
         if (null === $code) {
             $this->session->set('oauth2state', $this->github->getState());
 
+            echo '<pre>';var_dump($this->github);die();
             $this->redirect($this->github->getAuthorizationUrl());
         }
 
