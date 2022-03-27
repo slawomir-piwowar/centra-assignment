@@ -37,7 +37,8 @@ class TokenProvider implements TokenProviderInterface
 
         if (null === $code) {
             $this->session->set('oauth2state', $this->github->getState());
-
+            
+            $this->redirect($this->github->getAuthorizationUrl());
         }
 
         $token = $this->github->getAccessToken('authorization_code', [
