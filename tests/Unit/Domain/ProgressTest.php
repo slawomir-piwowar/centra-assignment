@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class ProgressTest extends TestCase
 {
+    /** @return array<string, array<int, int>> */
     public function invalidValuesProvider(): array
     {
         return [
@@ -18,9 +19,7 @@ class ProgressTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider invalidValuesProvider
-     */
+    /** @dataProvider invalidValuesProvider */
     public function testItThrowsAnExceptionWhenInvalidValuesAreUsed(int $completed, int $remaining): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -28,6 +27,7 @@ class ProgressTest extends TestCase
         new Progress($completed, $remaining);
     }
 
+    /** @return array<string, array<int, int, int>> */
     public function validValuesProvider(): array
     {
         return [
@@ -39,9 +39,7 @@ class ProgressTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider validValuesProvider
-     */
+    /** @dataProvider validValuesProvider */
     public function testPercentageIsCalculatingCorrectly(int $expectedResult, int $completed, int $remaining): void
     {
         $progress = new Progress($completed, $remaining);

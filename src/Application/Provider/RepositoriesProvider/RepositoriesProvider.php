@@ -7,6 +7,9 @@ class RepositoriesProvider implements RepositoriesProviderInterface
 {
     private const REPOSITORIES_SEPARATOR = '|';
 
+    /**
+     * @var array<string>
+     */
     private array $repositories;
 
     public function __construct(string $repositories)
@@ -16,11 +19,12 @@ class RepositoriesProvider implements RepositoriesProviderInterface
                 array_map(
                     'trim',
                     array_unique(explode(self::REPOSITORIES_SEPARATOR, $repositories)),
-                )
-            )
+                ),
+            ),
         );
     }
 
+    /** @return array<string> */
     public function provide(): array
     {
         return $this->repositories;

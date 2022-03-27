@@ -5,7 +5,9 @@ namespace KanbanBoard\Domain;
 
 class Board
 {
-    /** @var array<Milestone> */
+    /**
+     * @var array<Milestone>
+     */
     private array $milestones;
 
     public function __construct(Milestone ...$milestones)
@@ -13,6 +15,7 @@ class Board
         $this->milestones = $milestones;
     }
 
+    /** @return array<Milestone> */
     public function getMilestones(): array
     {
         return $this->milestones;

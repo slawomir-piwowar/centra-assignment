@@ -10,13 +10,17 @@ class IssueResponse
     private string $title;
     private string $state;
     private string $url;
-    /** @var array<string>  */
+
+    /**
+     * @var array<string>
+     */
     private array $labels;
     private bool $isPullRequest;
     private ?string $assignee;
     private ?string $body;
     private ?string $closedAt;
 
+    /**@param array<string> $labels */
     public function __construct(
         string $title,
         string $state,
@@ -77,6 +81,7 @@ class IssueResponse
         return $this->isPullRequest;
     }
 
+    /** @return array<string> */
     public function getLabels(): array
     {
         return $this->labels;

@@ -6,8 +6,12 @@ namespace KanbanBoard\Infrastructure\Http\Rest\GithubApi\V3\Mapper;
 use KanbanBoard\Infrastructure\Http\Rest\GithubApi\Response\IssueResponse;
 use Nette\Utils\Arrays;
 
+/**
+ * @SuppressWarnings(PHPMD.StaticAccess)
+ */
 class IssueResponseMapper
 {
+    // @codingStandardsIgnoreLine
     public function map(array $data): IssueResponse
     {
         return new IssueResponse(

@@ -5,6 +5,9 @@ namespace KanbanBoard\Domain;
 
 use DateTimeInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.StaticAccess)
+ */
 class Issue
 {
     private string $title;

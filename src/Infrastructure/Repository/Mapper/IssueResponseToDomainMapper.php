@@ -10,10 +10,17 @@ use KanbanBoard\Domain\IssueState;
 use KanbanBoard\Domain\Progress;
 use KanbanBoard\Infrastructure\Http\Rest\GithubApi\Response\IssueResponse;
 
+/**
+ * @SuppressWarnings(PHPMD.StaticAccess)
+ */
 class IssueResponseToDomainMapper
 {
+    /**
+     * @var array<string>
+     */
     private array $pausedLabels;
 
+    /** @param array<string> $pausedLabels */
     public function __construct(array $pausedLabels)
     {
         $this->pausedLabels = $pausedLabels;
@@ -33,6 +40,10 @@ class IssueResponseToDomainMapper
         );
     }
 
+    /**
+     * @param array<string> $currentLabels
+     * @param array<string> $pausedLabels
+     */
     protected function pausedLabels(array $currentLabels, array $pausedLabels): int
     {
         return count(array_intersect($currentLabels, $pausedLabels));
@@ -61,6 +72,8 @@ class IssueResponseToDomainMapper
 
     protected function getClosedAt(?string $closedAt): ?DateTimeInterface
     {
-        return $closedAt ? new DateTime($closedAt) : null;
+        return $closedAt
+            ? new DateTime($closedAt)
+            : null;
     }
 }

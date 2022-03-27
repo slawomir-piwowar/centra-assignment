@@ -9,11 +9,8 @@ use KanbanBoard\Application\Provider\TokenProvider\TokenProviderInterface;
 use KanbanBoard\Application\Repository\BoardRepositoryInterface;
 use KanbanBoard\Domain\Issue;
 use KanbanBoard\Domain\Milestone;
-use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @codeCoverageIgnore
- */
+/** @codeCoverageIgnore */
 class IndexController
 {
     private TokenProviderInterface $tokenProvider;
@@ -30,19 +27,20 @@ class IndexController
         $this->repositoriesProvider = $repositoriesProvider;
     }
 
+    // @codingStandardsIgnoreLine
     public function index(): array
     {
         $token = $this->tokenProvider->provide();
 
-        $milestones = array_map(fn(string $repository): array => [
-            array_map(static fn(Milestone $milestone): array => [
+        $milestones = array_map(fn (string $repository): array => [
+            array_map(static fn (Milestone $milestone): array => [
                 'url' => $milestone->getUrl(),
                 'milestone' => $milestone->getTitle(),
-                'queued' => array_map(static fn(Issue $issue): array => [
+                'queued' => array_map(static fn (Issue $issue): array => [
                     'url' => $issue->getUrl(),
                     'title' => $issue->getTitle(),
                 ], $milestone->queued()),
-                'active' => array_map(static fn(Issue $issue): array => [
+                'active' => array_map(static fn (Issue $issue): array => [
                     'url' => $issue->getUrl(),
                     'title' => $issue->getTitle(),
                     'paused' => $issue->isPaused(),
@@ -51,7 +49,7 @@ class IndexController
                         'percent' => $issue->getProgress()->getPercent(),
                     ],
                 ], $milestone->active()),
-                'completed' => array_map(static fn(Issue $issue): array => [
+                'completed' => array_map(static fn (Issue $issue): array => [
                     'url' => $issue->getUrl(),
                     'title' => $issue->getTitle(),
                     'assignee' => $issue->getAssignee(),
@@ -60,7 +58,7 @@ class IndexController
                 'progress' => [
                     'percent' => $milestone->getProgress()->getPercent(),
                 ],
-            ], $this->boardRepository->getByRepository($token, $repository)->getMilestones())
+            ], $this->boardRepository->getByRepository($token, $repository)->getMilestones()),
         ], $this->repositoriesProvider->provide());
 
         return [

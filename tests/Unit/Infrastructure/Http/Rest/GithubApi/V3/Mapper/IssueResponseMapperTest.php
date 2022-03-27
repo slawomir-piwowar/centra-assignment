@@ -6,9 +6,7 @@ namespace Tests\Unit\Infrastructure\Http\Rest\GithubApi\V3\Mapper;
 use KanbanBoard\Infrastructure\Http\Rest\GithubApi\V3\Mapper\IssueResponseMapper;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @coversDefaultClass \KanbanBoard\Infrastructure\Http\Rest\GithubApi\V3\Mapper\IssueResponseMapper
- */
+/** @coversDefaultClass \KanbanBoard\Infrastructure\Http\Rest\GithubApi\V3\Mapper\IssueResponseMapper */
 class IssueResponseMapperTest extends TestCase
 {
     private IssueResponseMapper $mapper;
@@ -47,7 +45,7 @@ class IssueResponseMapperTest extends TestCase
         $mapped = $this->mapper->map($this->getPayload([
             'assignee' => [
                 'avatar_url' => 'test_assignee',
-            ]
+            ],
         ]));
 
         $this->assertTrue($mapped->hasAssignee());
@@ -61,7 +59,7 @@ class IssueResponseMapperTest extends TestCase
                 ['name' => 'label_1'],
                 ['name' => 'label_2'],
                 ['name' => 'label_3'],
-            ]
+            ],
         ]));
 
         $this->assertNotEmpty($mapped->getLabels());
@@ -76,7 +74,7 @@ class IssueResponseMapperTest extends TestCase
         $mapped = $this->mapper->map($this->getPayload([
             'pull_request' => [
                 'test' => 'test',
-            ]
+            ],
         ]));
 
         $this->assertTrue($mapped->isPullRequest());
@@ -106,9 +104,7 @@ class IssueResponseMapperTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider isClosedDataProvider
-     */
+    /** @dataProvider isClosedDataProvider */
     public function testIsClosedIsMappedCorrectly(bool $expectedResult, string $state): void
     {
         $mapped = $this->mapper->map($this->getPayload([

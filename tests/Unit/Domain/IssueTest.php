@@ -32,18 +32,17 @@ class IssueTest extends TestCase
         $this->assertSame($this->closedAt, $issue->getClosedAt());
     }
 
+    /** @return array<bool, int, int> */
     public function pausedLabelsDataProvider(): array
     {
         return [
             [false, 0, 0],
             [true, 1, 1],
-            [true, 999999, 999999],
+            [true, 999_999, 999_999],
         ];
     }
 
-    /**
-     * @dataProvider pausedLabelsDataProvider
-     */
+    /** @dataProvider pausedLabelsDataProvider */
     public function testPausedLabels(
         bool $expectedIsPaused,
         int $expectedPausedLabelsCount,
@@ -82,7 +81,7 @@ class IssueTest extends TestCase
         $this->assertTrue($issue->isQueued());
     }
 
-    protected function getIssueWithState(IssueState $issueState, $pausedLabelsCount = 0): Issue
+    protected function getIssueWithState(IssueState $issueState, int $pausedLabelsCount = 0): Issue
     {
         return new Issue(
             $this->title,

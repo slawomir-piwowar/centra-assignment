@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-use KanbanBoard\Application\Controller\IndexController;
 use KanbanBoard\Application\Provider\RepositoriesProvider\RepositoriesProvider;
 use KanbanBoard\Application\Provider\RepositoriesProvider\RepositoriesProviderInterface;
 use KanbanBoard\Application\Provider\TokenProvider\TokenProvider;
@@ -32,6 +31,7 @@ return [
         'clientSecret' => DI\env('GH_CLIENT_SECRET'),
     ]),
 
+    // @@codingStandardsIgnoreLine
     Request::class => DI\factory(fn (ContainerInterface $c): Request => Request::createFromGlobals()),
 
     'paused_labels' => [
@@ -42,5 +42,5 @@ return [
         ->constructorParameter('pausedLabels', DI\get('paused_labels')),
 
     RepositoriesProvider::class => DI\autowire()
-        ->constructorParameter('repositories', DI\env('GH_REPOSITORIES'))
+        ->constructorParameter('repositories', DI\env('GH_REPOSITORIES')),
 ];

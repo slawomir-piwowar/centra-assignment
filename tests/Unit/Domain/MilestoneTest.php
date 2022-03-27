@@ -9,9 +9,7 @@ use KanbanBoard\Domain\Milestone;
 use KanbanBoard\Domain\Progress;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @coversDefaultClass \KanbanBoard\Domain\Milestone
- */
+/** @coversDefaultClass \KanbanBoard\Domain\Milestone */
 class MilestoneTest extends TestCase
 {
     public function testInitializationWithoutIssues(): void
@@ -28,7 +26,7 @@ class MilestoneTest extends TestCase
         $this->assertEmpty($milestone->completed());
     }
 
-    public function testQueuedIssuesAreReturningCorrectly()
+    public function testQueuedIssuesAreReturningCorrectly(): Milestone
     {
         $milestone = new Milestone(
             'title',
@@ -58,9 +56,7 @@ class MilestoneTest extends TestCase
         return $milestone;
     }
 
-    /**
-     * @depends testQueuedIssuesAreReturningCorrectly
-     */
+    /** @depends testQueuedIssuesAreReturningCorrectly */
     public function testActiveIssuesAreReturningCorrectly(Milestone $milestone): Milestone
     {
         $this->assertCount(2, $milestone->active());
@@ -69,9 +65,7 @@ class MilestoneTest extends TestCase
         return $milestone;
     }
 
-    /**
-     * @depends testActiveIssuesAreReturningCorrectly
-     */
+    /** @depends testActiveIssuesAreReturningCorrectly */
     public function testCompletedIssuesAreReturningCorrectly(Milestone $milestone): void
     {
         $this->assertCount(4, $milestone->completed());

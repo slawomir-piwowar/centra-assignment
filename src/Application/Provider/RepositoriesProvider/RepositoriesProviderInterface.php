@@ -5,8 +5,6 @@ namespace KanbanBoard\Application\Provider\RepositoriesProvider;
 
 interface RepositoriesProviderInterface
 {
-    /**
-     * @return array<string>
-     */
+    /** @return array<string> */
     public function provide(): array;
 }

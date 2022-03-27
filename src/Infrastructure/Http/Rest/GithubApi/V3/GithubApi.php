@@ -11,6 +11,9 @@ use KanbanBoard\Infrastructure\Http\Rest\GithubApi\Response\MilestoneResponse;
 use KanbanBoard\Infrastructure\Http\Rest\GithubApi\V3\Mapper\IssueResponseMapper;
 use KanbanBoard\Infrastructure\Http\Rest\GithubApi\V3\Mapper\MilestoneResponseMapper;
 
+/**
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class GithubApi implements GithubApiInterface
 {
     private Client $client;
@@ -30,9 +33,7 @@ class GithubApi implements GithubApiInterface
         $this->account = $account;
     }
 
-    /**
-     * @return array<MilestoneResponse>
-     */
+    /** @return array<MilestoneResponse> */
     public function getMilestones(string $token, string $repository): array
     {
         $this->setToken($token);
@@ -43,9 +44,7 @@ class GithubApi implements GithubApiInterface
         );
     }
 
-    /**
-     * @return array<IssueResponse>
-     */
+    /** @return array<IssueResponse> */
     public function getIssues(string $token, string $repository, int $number): array
     {
         $this->setToken($token);
@@ -56,11 +55,13 @@ class GithubApi implements GithubApiInterface
         );
     }
 
+    // @codingStandardsIgnoreLine
     protected function fetchMilestones(string $repository): array
     {
         return $this->client->api('issues')->milestones()->all($this->account, $repository);
     }
 
+    // @codingStandardsIgnoreLine
     protected function fetchIssues(string $repository, int $number): array
     {
         return $this->client->api('issue')->all($this->account, $repository, [

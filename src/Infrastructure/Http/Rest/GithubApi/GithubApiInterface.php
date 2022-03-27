@@ -8,13 +8,9 @@ use KanbanBoard\Infrastructure\Http\Rest\GithubApi\Response\MilestoneResponse;
 
 interface GithubApiInterface
 {
-    /**
-     * @return array<MilestoneResponse>
-     */
+    /** @return array<MilestoneResponse> */
     public function getMilestones(string $token, string $repository): array;
 
-    /**
-     * @return array<IssueResponse>
-     */
+    /** @return array<IssueResponse> */
     public function getIssues(string $token, string $repository, int $number): array;
 }

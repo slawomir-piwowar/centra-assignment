@@ -10,6 +10,9 @@ use KanbanBoard\Infrastructure\Http\Rest\GithubApi\GithubApiInterface;
 use KanbanBoard\Infrastructure\Http\Rest\GithubApi\Response\MilestoneResponse;
 use KanbanBoard\Infrastructure\Repository\Mapper\MilestoneResponseToDomainMapper;
 
+/**
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class BoardRepository implements BoardRepositoryInterface
 {
     private GithubApiInterface $githubApi;
@@ -26,12 +29,13 @@ class BoardRepository implements BoardRepositoryInterface
     public function getByRepository(string $token, string $repository): Board
     {
         return new Board(
-            ...array_map(function (MilestoneResponse $milestoneResponse) use ($token, $repository): Milestone {
-                return $this->milestoneResponseToDomainMapper->map(
+            ...array_map(
+                fn (MilestoneResponse $milestoneResponse): Milestone => $this->milestoneResponseToDomainMapper->map(
                     $milestoneResponse,
                     ...$this->githubApi->getIssues($token, $repository, $milestoneResponse->getNumber()),
-                );
-            }, $this->githubApi->getMilestones($token, $repository))
+                ),
+                $this->githubApi->getMilestones($token, $repository),
+            ),
         );
     }
 }

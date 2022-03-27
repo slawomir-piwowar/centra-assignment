@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace KanbanBoard\Domain;
 
+/**
+ * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ */
 class IssueState
 {
     private const COMPLETED = 'completed';
@@ -10,6 +13,11 @@ class IssueState
     private const QUEUED = 'queued';
 
     private string $state;
+
+    private function __construct(string $state)
+    {
+        $this->state = $state;
+    }
 
     public static function COMPLETED(): self
     {
@@ -34,10 +42,5 @@ class IssueState
     public function isEqual(self $issueState): bool
     {
         return $this->state === $issueState->toString();
-    }
-
-    private function __construct(string $state)
-    {
-        $this->state = $state;
     }
 }

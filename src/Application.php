@@ -24,6 +24,13 @@ class Application
     private Mustache_Engine $viewEngine;
     private Response $response;
 
+    private function __construct(Container $container, Response $response, Mustache_Engine $viewEngine)
+    {
+        $this->container = $container;
+        $this->viewEngine = $viewEngine;
+        $this->response = $response;
+    }
+
     public static function init(): self
     {
         Dotenv::createImmutable(self::ENV_DIR)->load();
@@ -31,6 +38,7 @@ class Application
         $builder = new ContainerBuilder();
         $builder->useAutowiring(true);
         $builder->addDefinitions(new DefinitionFile(self::SERVICES_FILE, new ReflectionBasedAutowiring()));
+
         $container = $builder->build();
 
         // TODO: use factory to make it replaceable
@@ -43,26 +51,25 @@ class Application
         return new self($container, $container->get(Response::class), $viewEngine);
     }
 
-    public function run(
-        string $controller = IndexController::class,
-        string $action = 'index'
-    ): void {
+    public function run(string $controller = IndexController::class, string $action = 'index'): void
+    {
         if (!class_exists($controller)) {
             throw new RuntimeException(
-                sprintf('Controller \'%s\' does not exists', $controller)
+                sprintf('Controller \'%s\' does not exists', $controller),
             );
         }
 
         if (!method_exists($controller, $action)) {
             throw new RuntimeException(
-                sprintf('Method \'%s\' does not exists', $action)
+                sprintf('Method \'%s\' does not exists', $action),
             );
         }
 
         $template = static function (string $controller, string $action): string {
             $explodedController = explode('\\', $controller);
 
-            return sprintf('%s/%s',
+            return sprintf(
+                '%s/%s',
                 str_replace('controller', '', strtolower(array_pop($explodedController))),
                 $action,
             );
@@ -75,23 +82,16 @@ class Application
             if (!is_array($context)) {
                 throw new RuntimeException('Returning array data in controller is required');
             }
-        } catch (Throwable $e) {
+        } catch (Throwable $throwable) {
             $templateName = 'error/error';
             $context = [
-                'message' => $e->getMessage(),
-                'code' => $e->getCode(),
-                'exception' => $e
+                'message' => $throwable->getMessage(),
+                'code' => $throwable->getCode(),
+                'exception' => $throwable,
             ];
         } finally {
             $this->response->setContent($this->viewEngine->render($templateName, $context));
             $this->response->send();
         }
-    }
-
-    private function __construct(Container $container, Response $response, Mustache_Engine $viewEngine)
-    {
-        $this->container = $container;
-        $this->viewEngine = $viewEngine;
-        $this->response = $response;
     }
 }

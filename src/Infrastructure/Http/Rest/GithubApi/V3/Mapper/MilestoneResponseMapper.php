@@ -6,8 +6,12 @@ namespace KanbanBoard\Infrastructure\Http\Rest\GithubApi\V3\Mapper;
 use KanbanBoard\Infrastructure\Http\Rest\GithubApi\Response\MilestoneResponse;
 use Nette\Utils\Arrays;
 
+/**
+ * @SuppressWarnings(PHPMD.StaticAccess)
+ */
 class MilestoneResponseMapper
 {
+    // @codingStandardsIgnoreLine
     public function map(array $data): MilestoneResponse
     {
         return new MilestoneResponse(

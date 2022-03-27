@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class RepositoriesProviderTest extends TestCase
 {
+    /** @return array<array<string>, string> */
     public function repositoriesDataProvider(): array
     {
         return [
@@ -21,9 +22,7 @@ class RepositoriesProviderTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider repositoriesDataProvider
-     */
+    /** @dataProvider repositoriesDataProvider */
     public function testProviderIsWorkingCorrectly(array $expectedResult, string $repositories): void
     {
         $provider = new RepositoriesProvider($repositories);
@@ -31,6 +30,7 @@ class RepositoriesProviderTest extends TestCase
         $this->assertArrayEquals($expectedResult, $provider->provide());
     }
 
+    // @codingStandardsIgnoreLine
     protected function assertArrayEquals(array $expected, array $actual): void
     {
         ksort($expected);

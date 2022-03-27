@@ -11,13 +11,8 @@ class MilestoneResponse
     private int $openIssues;
     private int $closedIssues;
 
-    public function __construct(
-        int $number,
-        string $title,
-        string $url,
-        int $openIssues,
-        int $closedIssues
-    ) {
+    public function __construct(int $number, string $title, string $url, int $openIssues, int $closedIssues)
+    {
         $this->number = $number;
         $this->title = $title;
         $this->openIssues = $openIssues;

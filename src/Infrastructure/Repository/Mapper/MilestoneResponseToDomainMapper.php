@@ -9,6 +9,9 @@ use KanbanBoard\Domain\Progress;
 use KanbanBoard\Infrastructure\Http\Rest\GithubApi\Response\IssueResponse;
 use KanbanBoard\Infrastructure\Http\Rest\GithubApi\Response\MilestoneResponse;
 
+/**
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
 class MilestoneResponseToDomainMapper
 {
     private IssueResponseToDomainMapper $issueResponseToDomainMapper;
@@ -18,16 +21,13 @@ class MilestoneResponseToDomainMapper
         $this->issueResponseToDomainMapper = $issueResponseToDomainMapper;
     }
 
-    public function map(
-        MilestoneResponse $milestoneResponse,
-        IssueResponse ...$issueResponses
-    ): Milestone {
+    public function map(MilestoneResponse $milestoneResponse, IssueResponse ...$issueResponses): Milestone
+    {
         return new Milestone(
             $milestoneResponse->getTitle(),
             $milestoneResponse->getUrl(),
             array_map(
-                fn (IssueResponse $issueResponse): Issue
-                    => $this->issueResponseToDomainMapper->map($issueResponse),
+                fn (IssueResponse $issueResponse): Issue => $this->issueResponseToDomainMapper->map($issueResponse),
                 $issueResponses,
             ),
             new Progress(
