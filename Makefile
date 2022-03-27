@@ -7,5 +7,8 @@ serve:
 composer-install:
 	docker exec -it centra_php_1 composer install --optimize-autoloader
 
-test-unit:
-	docker exec -it centra_php_1 composer test:unit
+test:
+	docker exec -it centra_php_1 composer test
+
+check:
+	docker exec -it centra_php_1 composer check
